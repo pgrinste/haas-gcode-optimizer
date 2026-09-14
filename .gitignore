@@ -1,0 +1,11 @@
+# venv + python cruft
+.venv/
+__pycache__/
+*.pyc
+
+# local install scaffolding (not part of the deliverable)
+pip_log.txt
+install_deps.bat
+
+# jupyter
+.ipynb_checkpoints/

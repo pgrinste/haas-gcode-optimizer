@@ -1,0 +1,13 @@
+# Closed-Loop AI G-Code Optimizer — dependencies
+# Python 3.10+ (developed on 3.13). Install the torch CPU wheel to keep the physics
+# evaluator light and free of CUDA DLL load risk:
+#   py -3.13 -m venv .venv
+#   .venv\Scripts\pip install numpy matplotlib
+#   .venv\Scripts\pip install torch --index-url https://download.pytorch.org/whl/cpu
+numpy>=1.26
+matplotlib>=3.8
+torch>=2.2
+
+# optional: headless notebook execution (used to produce the executed .ipynb)
+nbclient>=0.8
+ipykernel>=6.25
