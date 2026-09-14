@@ -5,7 +5,7 @@ evaluator checks **every block** against the machine's real spindle torque curve
 axis acceleration limits. The loop runs until the toolpath is feasible — then it keeps
 the fastest feasible version it ever found, not just the last one.
 
-Built for the HAAS job fair (Las Vegas). One notebook, no cloud dependencies:
+One notebook, no cloud dependencies:
 Ollama serves the LLM locally, the physics runs on CPU tensors.
 
 ## Results
