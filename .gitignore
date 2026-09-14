@@ -9,3 +9,7 @@ install_deps.bat
 
 # jupyter
 .ipynb_checkpoints/
+
+# local state / review notes (not for public)
+PROJECT_LOG.md
+Updates*.txt
