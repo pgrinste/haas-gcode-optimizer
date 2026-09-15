@@ -1,0 +1,28 @@
+{
+  "name": "Haas VF-2",
+  "spindle": {
+    "p_max_kw": 22.4,
+    "n_max_rpm": 8100.0,
+    "t_max_nm": 122.0238
+  },
+  "axis": {
+    "a_axis_mm_s2": 1524.0
+  },
+  "feed": {
+    "f_max_mm_min": 16510.0,
+    "rapid_mm_min": 25400.0
+  },
+  "tools": {
+    "1": {"dia_mm": 12.7, "flutes": 4},
+    "2": {"dia_mm": 25.4, "flutes": 4}
+  },
+  "ft_cap_mm_tooth": {
+    "1": 0.10,
+    "2": 0.25
+  },
+  "sources": [
+    "Haas VF-2 / VF-2V specification tables (haascnc.com): spindle power/speed/torque, traverse and feed limits",
+    "Haas VF Series Service Manual: axis acceleration ~60 in/s^2 (1524 mm/s^2)",
+    "Chip-load caps for 4-flute carbide in 6061-T6 aluminum"
+  ]
+}

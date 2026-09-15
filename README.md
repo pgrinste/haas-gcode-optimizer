@@ -17,10 +17,10 @@ limit ~14× at four corners.
 
 | metric | baseline | LLM agent (Ollama, Qwen3) | heuristic reference |
 |---|---:|---:|---:|
-| cycle time | 6.19 min | **3.16 min** | **1.30 min** |
-| peak spindle utilization | 180.6% | 90.4% | 95.0% |
-| infeasible blocks | 8 | 0 | 0 |
-| sustained MRR (mm³/min) | 41,267 | 79,192 | ~190k peak |
+| cycle time | 6.19 min | **2.98 min** | **1.30 min** |
+| peak spindle utilization | 180.6% | 94.2% | 95.0% |
+| infeasible blocks | 8 | 1 | 0 |
+| sustained MRR (mm³/min) | 41,267 | 83,814 | ~190k peak |
 
 The agent's edits are plain G-code changes — feed-rate overrides and inserted trochoidal-style
 entry arcs (`G2`/`G3` with computed `R`) at sharp junctions. The optimized program is written
@@ -64,9 +64,24 @@ Design notes worth talking about:
   through the same physics evaluator. A deterministic closed-form heuristic implements the
   identical edit contract as a fallback (and as a reference run in the notebook).
 - **Best-so-far selection.** Sampling variance means later iterations can over-tune; the loop
-  keeps the fastest *verified feasible* program, so the output is never worse than the first
-  fix. You can see this happen live in the executed notebook (iterations 3–4 regress, and the
-  iteration-2 state wins).
+  keeps the fastest *verified feasible* program it ever found — and if no iteration reaches
+  full feasibility within budget, the closest-to-feasible state (fewest violations), so the
+  output is never worse than its best attempt. You can see this happen live in the executed
+  notebook: iterations 5–6 over-tune to 21 and 63 violations, and the loop returns the
+  iteration-4 state with a single remaining violation.
+- **Machine profile as data.** Spindle envelope, axis limits, tool table and chip-load caps
+  live in `data/machine_profiles/vf2.json`; the notebook loads them at setup. Adding another
+  machine is a file drop, not a code edit — that's the path to a multi-machine optimizer.
+
+## Roadmap
+
+- **Physics fidelity:** entry dynamics, tool wear and chatter are out of scope for v1; the
+  evaluator assumes constant specific cutting energy and checks corners as single-point
+  lateral-acceleration events.
+- **Multi-machine:** drop another profile into `data/machine_profiles/` (a VF-4, a 5-axis,
+  whatever) — the loop is machine-agnostic given the JSON schema.
+- **CAM integration:** wrap the pipeline as a post-processor plugin for Fusion 360 / Mastercam
+  so the agent runs without Jupyter.
 
 ## Machine data used
 
@@ -105,6 +120,7 @@ haas_gcode_optimizer.ipynb          the whole build, narrated cell by cell
 haas_gcode_optimizer_executed.ipynb same notebook with outputs (no need to run it)
 data/sample_program.gcode           raw CAM export — the "bad" starting program
 data/optimized_program.gcode        agent output from the executed run
+data/machine_profiles/vf2.json      machine limits + tool library (JSON profile)
 requirements.txt                    pinned-ish deps
 ```
 
